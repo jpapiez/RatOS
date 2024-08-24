@@ -15,7 +15,7 @@ if [ $IMGCOUNT -eq 0 ]; then
 	find ./src/image -type f -not -name '.gitkeep' -delete
 	aria2c -d ./src/image --seed-time=0 $DOWNLOAD_URL_IMAGE
 fi
-exit 0
+#exit 0
 pushd ./src
 sudo bash -x ./build_dist
 popd
