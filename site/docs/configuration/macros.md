@@ -145,6 +145,14 @@ Use this variable to set name for the bed_mesh profile that RatOS calibrate and 
 | variable_end_print_park_z_hop      | number                      | number    | How many mm to lift the nozzle when after ending or cancelling a print.     |
 | variable_pause_print_park_in       | "back" / "center" / "front" | "back"    | Where to park the toolhead when pausing a print.                            |
 
+## END_PRINT behavior
+
+`[gcode_macro RatOS]`
+
+| Name                          | Possible Values | Default | Description                                                |
+| ----------------------------- | --------------- | ------- | ---------------------------------------------------------- |
+| variable_end_print_motors_off | True / False    | True    | If True the steppers will be disabled when the print ends. |
+
 ## Toolhead configuration
 
 `[gcode_macro T0]`
