@@ -1,15 +1,10 @@
 # Heatsoaking
-
-TODO:
-- Interaction with chamber heating macros
-- Improve introduction
-- Should default basic bed heatsoak time be non-zero?
-- More theory of operation for adaptive heatsoak
-
+:::info
+This is preliminary documentation
+:::
 ## Introduction
 
-Most materials used in the construction of 3D printers are subject to thermal expansion - that is, the dimensions change depending on how hot or cold they are. The heated bed is a common example. It is typically necessary or desirable to allow the bed to get fully heated through before printing starts. More TODO.
-
+Most materials used in the construction of 3D printers are subject to thermal expansion - that is, the dimensions change depending on how hot or cold they are. The heated bed is a common example. It is typically necessary or desirable to allow the bed to get fully heated through before printing starts. 
 1. [Bed heatsoaking](#bed-heatsoaking)
 2. [Hotend heatsoaking](#hotend-heatsoaking)
 
@@ -45,7 +40,7 @@ The algorithm has been tested successfully under various scenarios:
 - open and enclosed printers
 - from cold and warm start
 
-Active air circulation and active enclosure heating have not been extensively tested at this time. Any setup which creates unstable thermal conditions - for example, coarse bang-bang thermostat controlled chamber heating with bimetallic gantry - will likely lead to a soak hitting the maximum wait time rather than completing sooner, as the thermal conditions will not stabilize adequately. Likewise, an open frame printer in a drafty environment may struggle to reach stability. In these scenarios, you may need to fall back to basic heatsoaking with fixed times.
+Any setup which creates unstable thermal conditions - for example, coarse bang-bang thermostat controlled chamber heating with bimetallic gantry - may  lead to extended soak times, as the thermal conditions may not stabilize adequately. Likewise, an open frame printer in a drafty environment may struggle to reach stability. In these scenarios, you may need to fall back to basic heatsoaking with fixed times.
 
 Generally, the algorithm is designed to err on the safe side - that is, to soak longer than strictly necessary rather than shorter, but this cannot be guaranteed in all scenarios. If your printer has an unusual design or thermal characteristics, it is recommended to monitor the first few prints carefully to ensure that the adaptive heatsoaking is working as expected.
 
@@ -62,8 +57,6 @@ The layer quality setting controls the tradeoff between soak time and first laye
 - **3 (Normal)**: Balanced soak time and quality (default)
 - **4 (High)**: Longer soak, minimal first layer imperfections
 - **5 (Maximum)**: Slowest soak, best first layer quality and Z dimensional accuracy
-
-TODO: add examples of typical soak times for different printer sizes and layer quality settings.
 
 ##### Important: Maximum First Layer Duration
 
@@ -99,8 +92,6 @@ At present, `variable_beacon_adaptive_heat_soak_maximum_first_layer_duration` mu
 #### Theory of Operation
 
 Beacon adaptive heatsoaking places the toolhead at the centre of the bed and monitors beacon proximity measurements as the soak progresses. The rate of change of the proximity measurment, or *z-rate*, is used to determine when the printer has reached sufficient level of dimensional stability to start printing. The core principle here is to estimate how much residual z-deflection will occur during the first layer, and to wait until that residual deflection is below an acceptable threshold. 
-
-TODO...
 
 ## Hotend Heatsoaking
 
