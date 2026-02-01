@@ -3,13 +3,9 @@ title: Complete list
 sidebar_position: 1000000
 ---
 
-:::danger PINOUTS CHANGED
-Some pinouts have changed in RatOS 2.1.0-RC4 but have not yet been updated in the documentation. Please refer to the source code or reach out on Discord for the latest pinout information. (2026-02-01)
-:::
 :::warning 2.1 documentation is incomplete.
 This is preliminary documentation for the upcoming v2.1.0 release. The work is still ongoing and the documentation is not yet complete.
 :::
-
 
 # Supported control boards
 
