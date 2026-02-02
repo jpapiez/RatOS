@@ -59,6 +59,11 @@ If you cannot connect to http://RatOS.local/config but the RatOS hotspot doesn't
 
 If you followed the link to the mainsail machine page above, you'll see a panel with the title "Update Manager", this is where you can update all the packages to their latest versions.
 
+:::info Update Manager Initialization
+Occasionally, the Update Manager show may show one or more repositories as `INVALID`, often with a single `?` beneath the repository name. This is a Mainsail issue related to synchronising the system clock (time of day) using NTP. You can try to wait 2-3 minutes, then refresh. If the problem persists, restart the host (Raspberry Pi) and try again.
+![Borked Update Manager](_media/update_manager_borked.png)
+:::
+
 1. Update RatOS packages first.
 	- If you see both `ratos` and `ratos-configurator` in the list (RatOS prior to V2.1.0-RC4), start by updating `ratos` first, then `ratos-configurator`.
 	- If you see only `ratos-configurator` (mainsail v2.12 or below and/or RatOS prior to V2.1.0-RC4) or `RatOS Core: Configuration & Configurator` (mainsail v2.13 and RatOS V2.1.0-RC4 and above) in the list, update only this package.
