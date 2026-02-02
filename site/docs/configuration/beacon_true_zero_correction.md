@@ -16,6 +16,14 @@ The `[beacon_true_zero_correction]` module is enabled by default in RatOS whenev
 [beacon_true_zero_correction]
 # If True, the true zero correction feature is disabled. Default: False
 disabled: False                             
+```
+
+## Diagnostic Configuration
+
+The following configuration options are available for diagnostic purposes only. Users should not modify or paste these these settings into `printer.cfg` in normal use.
+
+```properties
+[beacon_true_zero_correction]
 # z values greater than z_rejection_threshold are rejected. These typically correspond to early triggering
 # of beacon contact before the nozzle has touched the bed. From test data, these are rare. Only 0.028% of samples
 # exceeded 75um (from over 32,000 samples across multiple machines and print surfaces).
