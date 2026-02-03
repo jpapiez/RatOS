@@ -66,10 +66,10 @@ RC4 now fully generates the configuraton for IDEX printers, including VAOC suppo
 :::
 
 ### Installation
-Follow the [installation instructions](installation).
+Follow the [installation instructions](/docs/installation).
 
 ### Initial Configuration
-Follow the [initial configuration instructions](configuration).
+Follow the [initial configuration instructions](/docs/configuration).
 
 ## 3. Selectively restore configuration
 
