@@ -7,7 +7,7 @@
 - [Initial calibration](#1-initial-calibration)
 - [Beacon latency check](#2-beacon-latency-check)
 - [Hotend expansion calibration](#3-hotend-expansion-calibration)
-- [Beacon Scan Compensation](#4-beacon-scan-compensation)
+- [Beacon Scan Compensation](#5-beacon-scan-compensation)
 - [Final calibration](#5-final-calibration)
 - [First print and fine tuning](#6-first-print-and-fine-tuning)
 - [RatOS configuration](#7-ratos-configuration)
@@ -66,7 +66,7 @@ The automated beacon calibration will run the following calibrations and tests, 
 
 - [Initial calibration](#1-initial-calibration)
 - [Beacon latency check](#2-beacon-latency-check)
-- [Temperature expansion calibration](#3-temperature-expansion-calibration) (for non IDEX printer)
+- [Hotend expansion calibration](#3-hotend-expansion-calibration) (for non IDEX printer)
 - [Beacon Scan Compensation](#4-beacon-scan-compensation)
 - [Final calibration](#5-final-calibration)
 
@@ -113,7 +113,7 @@ Compare your latency values with the following list.
 
 ## 3. Hotend expansion calibration
 
-RatOS comes with built-in temperature expansion calibration and compensation.
+RatOS comes with built-in hotend expansion calibration and compensation.
 
 **Preparation**
 
