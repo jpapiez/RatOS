@@ -66,10 +66,10 @@ RC4 now fully generates the configuraton for IDEX printers, including VAOC suppo
 :::
 
 ### Installation
-Follow the [installation instructions](/docs/installation).
+Follow the [installation instructions](https://os.ratrig.com/docs/installation).
 
 ### Initial Configuration
-Follow the [initial configuration instructions](/docs/configuration).
+Follow the [initial configuration instructions](https://os.ratrig.com/docs/configuration).
 
 ## 3. Selectively restore configuration
 
