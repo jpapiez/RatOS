@@ -14,6 +14,10 @@
 - [Beacon Tools](#8-tools)
 - [FAQ](#9-faq)
 
+:::info First Layers
+Please read the [First Layers](configuration/first_layers.md) section, as there are significant improvements to first layer accuracy and consistency with beacon in RC4.
+:::
+
 ## Prerequisites
 
 Please read the official [beacon contact documentation](https://docs.beacon3d.com/contact/), but do not follow any installation instructions. Beacon is already installed and configured in RatOS, you just need to connect it to your Raspberry Pi.

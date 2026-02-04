@@ -87,6 +87,10 @@ To test, debug and/or verify a BLTouch, refer to the [BLTouch klipper documentat
 :::
 
 ## Z-Offset
+:::info Beacon First Layers
+If you are using beacon as your Z-probe, please read the [First Layers](configuration/first_layers.md) section, as there are significant improvements to first layer accuracy and consistency with beacon in RC4.
+:::
+
 :::info Beacon Probe
 If you are using a beacon as your Z-Probe, you should skip this step and follow the [Beacon](configuration/beacon.md) documentation to verify and calibrate your beacon.
 :::

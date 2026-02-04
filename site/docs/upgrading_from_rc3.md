@@ -15,6 +15,10 @@ RC3 users may have significantly customized their configuration and printing wor
 Notably, for completely stock-built V-Core 4.0 and 4.1 printers, no customizations should be necessary beyond selecting the correct printer model in the RatOS setup wizard. Calibrations and some user-dependent settings are still required as dicussed by the installation instructions, but customizations beyond this may interfere with the new features and improvements in RC4.
 :::
 
+:::info First Layers
+If you are using a beacon probe, please read the [First Layers](configuration/first_layers.md) section, as there are significant improvements to first layer accuracy and consistency in RC4.
+:::
+
 ## 1. Verify Board Pinouts and Wiring
 :::danger Board Pinouts Changed
 Please read this section carefully before proceeding with the upgrade to see if your printer is affected.
@@ -66,10 +70,10 @@ RC4 now fully generates the configuraton for IDEX printers, including VAOC suppo
 :::
 
 ### Installation
-Follow the [installation instructions](https://os.ratrig.com/docs/installation).
+Follow the [installation instructions](/docs/installation/).
 
 ### Initial Configuration
-Follow the [initial configuration instructions](https://os.ratrig.com/docs/configuration).
+Follow the [initial configuration instructions](/docs/configuration/).
 
 ## 3. Selectively restore configuration
 
