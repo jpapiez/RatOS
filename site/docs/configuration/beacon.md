@@ -256,7 +256,7 @@ If you are using the [recommended workflow](#recommended-workflow), many users f
 
 If you do wish to make small Z-offset adjustments, you can do so using baby stepping while printing the first layer. The procedure has changed between RatOS 2.1.0-RC3 and RC4. In RC4, the normal Klipper/Mainsail workflow common to many Z-probes is used:
 
-- While printing, *if necessary*, fine-tune using baby stepping using the Z-offset adjustment buttons in Mainsail Z-Offset section.
+- While printing, *if necessary*, fine-tune using the Z-offset adjustment buttons in Mainsail Z-Offset section.
 - Click the `SAVE` button in the Mainsail Z-Offset section to save the adjustment, or run the `Z_OFFSET_APPLY_PROBE` command.
 - Use the `SAVE_CONFIG` command to save the adjustment to `printer.cfg`. If you restart Klipper without saving the config, the adjustment will be lost.
 ![Mainsail Z-Offset Section](_media/z_offset.png)
