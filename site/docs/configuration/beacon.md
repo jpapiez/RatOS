@@ -242,14 +242,28 @@ Use your target temperatures for the `BED_TEMP` and `CHAMBER_TEMP` parameters. T
 ## 6. First print and fine tuning
 
 :::info
-If you are using the [recommended workflow](#recommended-workflow), many users find that you never need to perform babystepping adjustments. The true zero correction feature ensures that the nozzle is always at the correct height for the first layer, and the adaptive heatsoaking feature helps to ensure consistent first layers without the need for manual adjustments. However, if you do find that you need to make small adjustments, the following procedure will help you to do so.
+If you are using the [recommended workflow](#recommended-workflow), many users find that you never need to perform babystepping adjustments. The true zero correction feature ensures that the nozzle is always at the correct height for the first layer, and the adaptive heatsoaking feature helps to ensure consistent first layers without needing to judge how much soaking is required.
 :::
 :::warning
 Before printing, you should understand [Heatsoaking](heatsoaking.md) and how it affects first layer quality. Adaptive heatsoaking is enabled by default for V-Core 4.x printers, with default settings that should be appropriate for typical printing, for first layers that take up to 30 minutes to print. Other printers should be configured before printing. Larger printers with bi-metallic gantry construction may experience significant thermal Z deflection during the first layer if not adequately heatsoaked, which can lead to build sheet damage.
 :::
-1. Print a 150x30mm single layer rectangle in the middle of the build plate.
-2. While printing, *if necessary*, fine-tune using baby stepping.
-3. Click the `SAVE` button in the Mainsail `Z-OFFSET` section to save the adjustment, or run the `Z_OFFSET_APPLY_PROBE` command.
+
+For first layer test prints, ideally you should use filament that is already calibrated, particularly for bed and hotend temperature, extrusion multiplier and pressure advance. Using a reputable filament with a matching filament profile from a reputable source can help to ensure good first layers and reduce the need for adjustments. Also ensure that the filament is dry and is compatible with your build sheet surface.
+
+- Print a 150x30mm single layer rectangle in the middle of the build plate.
+
+If you are using the [recommended workflow](#recommended-workflow), many users find that you **never need to perform babystepping adjustments**. There can be many causes for imperfect first layers, and with the improvements to true zero calibration and compensation in RatOS 2.1.0-RC4, nozzle height is often not the primary cause of first layer issues. See [first layers](first_layers.md) for more information.
+
+If you do wish to make small Z-offset adjustments, you can do so using baby stepping while printing the first layer. The procedure has changed between RatOS 2.1.0-RC3 and RC4. In RC4, the normal Klipper/Mainsail workflow common to many Z-probes is used:
+
+- While printing, *if necessary*, fine-tune using baby stepping using the Z-offset adjustment buttons in Mainsail Z-Offset section.
+- Click the `SAVE` button in the Mainsail Z-Offset section to save the adjustment, or run the `Z_OFFSET_APPLY_PROBE` command.
+- Use the `SAVE_CONFIG` command to save the adjustment to `printer.cfg`. If you restart Klipper without saving the config, the adjustment will be lost.
+![Mainsail Z-Offset Section](_media/z_offset.png)
+
+:::info Z-Offset Display in RC3 versus RC4
+In RatOS 2.1.0-RC3, the Z-offset shown in Mainsail would often be a strange "random looking" value that did not match Z-Offset adjustments being made. In RC4, the Z-offset shown in Mainsail now behaves like it would with vanilla Klipper: the value is typically zero, unless you are in the process of making a Z-offset adjustment, in which case it will show the current adjustment being made.
+:::
 
 ## 7. RatOS configuration
 :::warning
