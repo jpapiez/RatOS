@@ -19,7 +19,7 @@ Please read the [First Layers](configuration/first_layers.md) section, as there 
 :::
 
 :::warning Using Damaged Build Sheets
-Do not use beacon true zero (with or without the [true zero correction feature](beacon_true_zero_correction)) with a build sheet with significant damage around the safe home position (by default, the middle of the sheet). If an area with missing coating is probed, true zero can be set to a Z height that is significantly lower than the actual coating surface, which can lead to nozzle crashes and further damage to the build sheet.
+Do not use beacon true zero (with or without the [true zero correction feature](beacon_true_zero_correction.md)) with a build sheet with significant damage around the safe home position (by default, the middle of the sheet). If an area with missing coating is probed, true zero can be set to a Z height that is significantly lower than the actual coating surface, which can lead to nozzle crashes and further damage to the build sheet.
 :::
 
 ## Prerequisites
