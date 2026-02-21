@@ -18,6 +18,10 @@
 Please read the [First Layers](configuration/first_layers.md) section, as there are significant improvements to first layer accuracy and consistency with beacon in RC4.
 :::
 
+:::warning Using Damaged Build Sheets
+Do not use beacon true zero (with or without the [true zero correction feature](beacon_true_zero_correction)) with a build sheet with significant damage around the safe home position (by default, the middle of the sheet). If an area with missing coating is probed, true zero can be set to a Z height that is significantly lower than the actual coating surface, which can lead to nozzle crashes and further damage to the build sheet.
+:::
+
 ## Prerequisites
 
 Please read the official [beacon contact documentation](https://docs.beacon3d.com/contact/), but do not follow any installation instructions. Beacon is already installed and configured in RatOS, you just need to connect it to your Raspberry Pi.
