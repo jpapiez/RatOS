@@ -1,27 +1,40 @@
 # Heatsoaking
-:::info
-This is preliminary documentation
-:::
+
+- [Introduction](#introduction)
+- [General Heatsoaking](#general-heatsoaking)
+- [Hotend Heatsoaking](#hotend-heatsoaking)
+- [Changing Heatsoak Settings On The Fly](#changing-heatsoak-settings-on-the-fly)
+
 ## Introduction
 
-Most materials used in the construction of 3D printers are subject to thermal expansion - that is, the dimensions change depending on how hot or cold they are. The heated bed is a common example. It is typically necessary or desirable to allow the bed to get fully heated through before printing starts. 
-1. [Bed heatsoaking](#bed-heatsoaking)
-2. [Hotend heatsoaking](#hotend-heatsoaking)
+Most materials used in the construction of 3D printers are subject to thermal expansion - that is, the dimensions change depending on how hot or cold they are. The frame, gantry and bed of a 3D printer can experience significant temperature changes when the bed and/or chamber heats up, which can lead to dimensional changes and deflection. Waiting for these effects to stabilize is commonly referred to as "heatsoaking". If performing calibration routines or printing takes place before the printer has reached adequate thermal stability, ongoing dimensional changes can lead to calibration inaccuracies, poor print quality, and in extreme cases, print failure or damage to the bed.
 
-## Bed Heatsoaking
+In addition to dimensional effects, the bed needs to be evenly-heated before printing to ensure good adhesion and print quality. This is particularly important for large and/or thick beds, which can take a long time to heat through evenly and may have significant temperature gradients across the bed during the heatup phase.
 
-RatOS provides two mechanisms to help manage heatsoaking:
+The heatsoaking of the bed, gantry and chamber typically take place together, and we refer to this as [general heatsoaking](#general-heatsoaking).
+
+The hotend will also experience thermal expansion. For many hotend designs, this expansion is stable as soon as the hotend reaches its target temperature. However, some hotends may require additional time to stabilize. If desired, a hotend heatsoak duration can be configured, which is used during printing and calibration routines. This is covered in the [hotend heatsoaking](#hotend-heatsoaking) section below.
+
+## General Heatsoaking
+
+In a simple printer setup without active chamber heating, the heated bed is used as the source of heat for the general heatsoaking process. As such, general heatsoaking is often referred to as "bed heatsoaking", or simply "heatsoaking".
+
+RatOS provides two mechanisms to help manage general heatsoaking:
 
 - Basic heatsoaking simply waits for a configured time period after the bed has reached temperature.
-- Beacon adaptive heatsoak dynamically determines when the printer has reached sufficient thermal stability.
+- Beacon adaptive heatsoaking dynamically determines when the printer has reached sufficient thermal stability using beacon proximity measurements.
 
 The configured heatsoaking is used during the `START_PRINT` macro and by applicable calibration routines.
 
-### Basic Bed Heatsoaking
+### Basic Heatsoaking
 
-Basic bed heatsoaking is used if adaptive heatsoaking is not enabled. It simply waits for a fixed time period after the bed has reached temperature before proceeding.
+:::info
+If your printer has a beacon probe, consider using [beacon adaptive heatsoaking](#beacon-adaptive-bed-heatsoaking) rather than basic heatsoaking, as it takes the guesswork and experimentation out of finding the optimal heatsoaking duration for your printer, and can adapt to different printing conditions such as starting from cold or warm, different bed temperatures, and so on. Adaptive heatsoaking is enabled by default for V-Core 4.x variants, and can be optionally enabled on other printers.
+:::
 
-By default, no bed heatsoaking is performed.
+Basic heatsoaking is used if beacon adaptive heatsoaking is not enabled. It simply waits for a fixed time period after the bed has reached temperature before proceeding.
+
+By default, no heatsoaking is performed. While this may be suitable for some smaller open frame printers, most printers will benefit from some level of heatsoaking to improve print quality and calibration accuracy. A good starting point for many printers is around 5-10 minutes (300-600 seconds), but the optimal duration can vary widely depending on the printer design, materials, and environment. It is recommended to experiment with different durations to find the best setting for your specific setup.
 
 `[gcode_macro RatOS]`
 
@@ -40,7 +53,7 @@ The algorithm has been tested successfully under various scenarios:
 - open and enclosed printers
 - from cold and warm start
 
-Any setup which creates unstable thermal conditions - for example, coarse bang-bang thermostat controlled chamber heating with bimetallic gantry - may  lead to extended soak times, as the thermal conditions may not stabilize adequately. Likewise, an open frame printer in a drafty environment may struggle to reach stability. In these scenarios, you may need to fall back to basic heatsoaking with fixed times.
+Any setup which creates unstable thermal conditions - for example, coarse bang-bang thermostat controlled chamber heating with bimetallic gantry - may lead to extended soak times, as the thermal conditions may not stabilize adequately. Likewise, an open frame printer in a drafty environment may struggle to reach stability. In these scenarios, you may need to fall back to basic heatsoaking with fixed times.
 
 Generally, the algorithm is designed to err on the safe side - that is, to soak longer than strictly necessary rather than shorter, but this cannot be guaranteed in all scenarios. If your printer has an unusual design or thermal characteristics, it is recommended to monitor the first few prints carefully to ensure that the adaptive heatsoaking is working as expected.
 
@@ -102,3 +115,122 @@ Hotend heatsoaking is typically not needed, as typical modern hotends have relat
 | Name                           | Possible Values     | Default    | Description                                                            |
 | ------------------------------ | ------------------- | ---------- | ---------------------------------------------------------------------- |
 | variable_hotend_heat_soak_time | integer (seconds)   | 0          | Time in seconds to heat soak the hotend before printing or calibration |
+
+## Changing Heatsoak Settings On The Fly
+
+Heatsoak settings can be changed before a print is started without editing `printer.cfg`. Changes made this way are temporary and only last until the next printer restart, at which point the settings in `printer.cfg` are restored (these are referred to as the "startup settings").
+
+While you can use the general-purpose `SET_GCODE_VARIABLE` command to change heatsoak settings, RatOS provides dedicated macros to simplify this process.
+
+If you want to apply heatsoak settings within slicer custom gcode, the custom gcode must be placed *before* the `START_PRINT` macro.
+
+### `USE_ADAPTIVE_HEATSOAK` Macro
+
+Temporarily enables beacon adaptive bed heatsoaking (if a beacon probe is present), will reset to `printer.cfg` settings when Klipper is restarted. Optionally specify `QUALITY` (1-5) and maximum `FIRST_LAYER_DURATION` (in minutes).
+
+By default, the startup settings from `printer.cfg` will be used for any unspecified optional arguments, although this can be configured to use current settings instead - see the [Default Values for Optional Arguments](#default-values-for-optional-arguments) section below for details.
+
+Example:
+```
+USE_ADAPTIVE_HEATSOAK QUALITY=3 FIRST_LAYER_DURATION=30
+```
+Console shows:
+```
+RatOS: Will use adaptive bed heatsoak with quality 3 and maximum first layer duration of 30 minutes.
+```
+
+### `USE_FIXED_HEATSOAK` Macro
+Temporarily enables fixed bed heatsoaking, will reset to `printer.cfg` settings when Klipper is restarted. Optionally specify `DURATION` (in minutes). The startup settings from `printer.cfg` will be used by default.
+
+By default, the startup settings from `printer.cfg` will be used for any unspecified optional arguments, although this can be configured to use current settings instead - see the [Default Values for Optional Arguments](#default-values-for-optional-arguments) section below for details.
+
+Example:
+```
+USE_FIXED_HEATSOAK DURATION=10
+```
+Console shows:
+```
+RatOS: Will use fixed-duration bed heatsoak duration of 10 minutes.
+```
+
+### `USE_NO_HEATSOAK` Macro
+Temporarily disables bed heatsoaking, will reset to `printer.cfg` settings when Klipper is restarted.
+
+Example:
+```
+USE_NO_HEATSOAK
+```
+Console shows:
+```
+RatOS: Will use no bed heatsoak.
+```
+
+### Default Values for Optional Arguments
+
+This section applies only to the default values for unspecified optional arguments in the `USE_ADAPTIVE_HEATSOAK` and `USE_FIXED_HEATSOAK` commands.
+
+For optional arguments that are not specified, the default values can come either from the startup settings in `printer.cfg` or from the current settings (which may have been changed since startup). **By default, the macros will use startup settings.**
+
+The default source can be configured by adding the following to `printer.cfg`:
+
+```properties
+[gcode_macro HEATSOAK_SETTINGS]
+variable_default_source: "current"  # The source of default values. Must be "current" or "startup".
+```
+
+You can also specify the default source on a per-macro basis by including `DEFAULT=...` in the macro call. For example, to use current settings as the default for unspecified arguments when calling `USE_ADAPTIVE_HEATSOAK`:
+
+```
+USE_ADAPTIVE_HEATSOAK DEFAULT=current QUALITY=1
+```
+
+### `HEATSOAK_SETTINGS` Macro
+
+The `HEATSOAK_SETTINGS` macro displays the current heatsoak settings can be used from the Mainsail console, added as a Mainsail custom macro button, or included in slicer custom gcode prior to the `START_PRINT` macro.
+
+#### Without Arguments
+
+Without arguments, `HEATSOAK_SETTINGS` displays a simple summary of the current bed heatsoak settings. Specify `VERBOSE=1` to show all the underlying heatsoak variables. If you do not have a beacon probe configured, the beacon adaptive heatsoak settings are not shown.
+
+Example:
+```
+HEATSOAK_SETTINGS
+```
+Console shows:
+```
+RatOS: Will use adaptive bed heatsoak with quality 3 and maximum first layer duration of 5 minutes.
+```
+
+Example with `VERBOSE=1`:
+```
+HEATSOAK_SETTINGS VERBOSE=1
+```
+Console shows:
+```
+RatOS: Will use adaptive bed heatsoak with quality 3 and maximum first layer duration of 5 minutes.
+Detailed settings:
+beacon_adaptive_heat_soak: True
+beacon_adaptive_heat_soak_max_wait: 5400
+beacon_adaptive_heat_soak_extra_wait_after_completion: 120
+beacon_adaptive_heat_soak_layer_quality: 3
+beacon_adaptive_heat_soak_maximum_first_layer_duration: 300
+bed_heat_soak_time: 0
+hotend_heat_soak_time: 0
+```
+
+#### With Full Variable Names
+
+You can also use the full variable names to set heatsoak settings. Do not include the `variable_` prefix. Note that no validation is performed on the value supplied when adjusting settings this way, so you must ensure that the value is valid. Prefer the dedicated macros described above where possible, as they perform validation and provide feedback in the console.
+
+Example:
+```
+HEATSOAK_SETTINGS beacon_adaptive_heat_soak_extra_wait_after_completion=120
+```
+Console shows:
+```
+Setting beacon_adaptive_heat_soak_extra_wait_after_completion to 120
+```
+
+### `RESET_HEATSOAK_SETTINGS` Macro
+
+The `RESET_HEATSOAK_SETTINGS` macro resets all heatsoak settings to the values from `printer.cfg` when Klipper started up. This can be useful if you have made temporary changes using the `HEATSOAK_SETTINGS` macro and wish to revert to the startup configuration without restarting the printer.
