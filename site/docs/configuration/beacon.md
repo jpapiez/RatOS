@@ -164,9 +164,28 @@ RatOS | Beacon: T0 expansion coefficient: 0.075000
 
 This value is in millimeters and represents the thermal expansion for a temperature difference of 100°C. RatOS uses this value to automatically calculate and apply the needed offset. The result is automatically saved to the configuration file - no user action is required.
 
+If the measured expansion coefficient falls outside the most common range, you will receive a warning in the console, for example:
+
+```
+Suspicious nozzle expansion coefficient for T0 value
+The nozzle_expansion_coefficient_t0 value in ratos-variables.cfg is 0.01, which is quite low. Please verify that this is correct.
+```
+
+If you receive this warning, check the typical expansion coefficients for your hotend below. Values outside the expected range may indicate a hardware issue, for example loose components or a failing thermistor. If the value is within the expected range for your hotend, you can adjust the sanity check range to avoid seeing the warning for sensible values, see below.
+
 ### Typical expansion coefficients
 If the measured epansion coefficient is significantly different from typical values, you may want to re-run the calibration.
 - Phaetus Rapido 2+ UHF: 0.06 - 0.08 mm/100°C
+- Chube Air/Conduction: 0.02 - 0.04 mm/100°C
+
+### Adjusting the sanity check range
+If your type of hotend has a typical expansion coefficient that is outside the default sanity check range (for example, Chube), you can adjust the range. However, if your hotend has a value outside the expected range for its type (for example, a Rapido 2+ UHF reporting 0.04), you are strongly advised to investigate and resolve the cause instead rather than suppressing the warning. To adjust the sanity check range, add the following to your `printer.cfg`:
+
+```properties
+[gcode_macro RatOS]
+variable_sanity_check_nozzle_expansion_coefficient_low: 0.05  # Minimum expected nozzle expansion coefficient (mm/100°C), default 0.05
+variable_sanity_check_nozzle_expansion_coefficient_high: 0.1  # Maximum expected nozzle expansion coefficient (mm/100°C), default 0.10
+```
 
 ## 4. Beacon Scan Compensation
 
