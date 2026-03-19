@@ -51,3 +51,19 @@ Alternatively you can delete the entire `[authorization]` section, which will al
 For further support check out the RatOS-support and klipper channels on Discord. Use the invite link below to join.
 
 <a href="https://discord.gg/ratrig" class="button button--primary">Join the Unnofficial RatRig Discord Community</a>
+
+## Creating a "debug.zip" file
+
+The RatOS configurator has a built in tool to create a `debug.zip` file that contains all the relevant logs and configuration files for troubleshooting. This is especially useful when asking for help in the Discord community, as it allows others to see your configuration and logs to better understand your issue. To create a `debug.zip` file, follow these steps:
+
+1. In Mainsail, click on the `CONFIGURATOR` button in the left sidebar:
+![Mainsail sidebar with CONFIGURATOR button highlighted](_media/debug_zip_1.png)
+
+2. In the configurator, click on the `Debug Zip` button in the left sidebar:
+![Mainsail configurator with Debug Zip button highlighted](_media/debug_zip_2.png)
+
+3. In the pop up panel, review the warning. If you want to proceed, click the `I Understand` button.
+![Debug Zip pop up (top section)](_media/debug_zip_3.png)
+![Debug Zip pop up (bottom section)](_media/debug_zip_4.png)
+
+4. A file named `ratos-debug.zip` will be downloaded to your computer. Your browser may block the download, so make sure to allow it if prompted. If a file with the same name already exists, your browser may automatically rename the new file to `ratos-debug (1).zip` or similar.
