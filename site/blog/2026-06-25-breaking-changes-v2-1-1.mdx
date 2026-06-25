@@ -5,11 +5,11 @@ authors: [remi]
 tags: [RatOS, Releases]
 ---
 
-RatOS v2.1.1 will be released soon, and includes some hardware pin configuration changes that may affect a small number of machines.
+RatOS minor update v2.1.1 will be released soon, and includes some hardware pin configuration changes that may affect some machines.
 
 **NOTE: Machines built using stock RatRig V-Core 4.0 and 4.1 hardware are not affected.**
 
-Please review the following **potentially breaking** changes carefully before upgrading machines using the following boards. You may need to adjust machine wiring or add overrides to `printer.cfg`.
+Please review the following **potentially breaking** changes carefully before upgrading machines using the affected boards. You may need to adjust machine wiring or add overrides to `printer.cfg`.
 * Octopus Pro H723 V1.1 (control board)
   * `ratrig_vaoc_led_pin` has been changed from `PB0` to `PB10` ([#141](https://github.com/Rat-OS/RatOS-configurator/pull/141))
   * `y1_enable_pin` and `e_heater_pin` were swapped. The assignments are now `y1_enable_pin`=`PA2`, `e_heater_pin`=`PA0` ([#134](https://github.com/Rat-OS/RatOS-configurator/pull/134))
